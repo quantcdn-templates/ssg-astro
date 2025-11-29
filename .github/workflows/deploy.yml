@@ -1,35 +1,62 @@
-name: Build and Deploy to Quant
+name: "Deploy to QuantCDN"
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  init:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - name: Install dependencies
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Cache local revision file
+        id: cache-quant-revisions
+        uses: actions/cache@v4
+        with:
+          path: .quant-revision
+          key: quant-revision
+
+      - name: Install Dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build site
+      - name: Build static output
         run: npm run build
 
-      - name: Deploy to Quant
-        uses: quantcdn/deploy-action@v2
+      - name: Deploy updates to QuantCDN
+        uses: quantcdn/deploy-action@v5.0.0
         with:
-          customer: ${{ secrets.QUANT_CUSTOMER }}
-          project: ${{ secrets.QUANT_PROJECT }}
+          customer: ${{ secrets.QUANT_CUSTOMER_ID }}
+          project: ${{ secrets.QUANT_PROJECT_ID }}
           token: ${{ secrets.QUANT_TOKEN }}
+          endpoint: ${{ secrets.QUANT_ENDPOINT || 'https://api.quantcdn.io' }}
           dir: dist
-          purge: true
+          chunk-size: 20
+          skip-purge: true
+
+      - name: Purge the QuantCDN cache
+        uses: quantcdn/purge-action@v2
+        with:
+          customer: ${{ secrets.QUANT_CUSTOMER_ID }}
+          project: ${{ secrets.QUANT_PROJECT_ID }}
+          token: ${{ secrets.QUANT_TOKEN }}
+          endpoint: ${{ secrets.QUANT_ENDPOINT || 'https://api.quantcdn.io' }}
+          url_pattern: "/*"
