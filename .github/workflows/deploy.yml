@@ -44,10 +44,10 @@ jobs:
       - name: Deploy updates to QuantCDN
         uses: quantcdn/deploy-action@v5.0.0
         with:
-          customer: ${{ secrets.QUANT_CUSTOMER_ID }}
-          project: ${{ secrets.QUANT_PROJECT_ID }}
+          customer: ${{ env.QUANT_CUSTOMER }}
+          project: ${{ env.QUANT_PROJECT }}
           token: ${{ secrets.QUANT_TOKEN }}
-          endpoint: ${{ secrets.QUANT_ENDPOINT || 'https://api.quantcdn.io' }}
+          endpoint: ${{ env.QUANT_ENDPOINT || 'https://api.quantcdn.io/v1' }}
           dir: dist
           chunk-size: 20
           skip-purge: true
@@ -55,8 +55,8 @@ jobs:
       - name: Purge the QuantCDN cache
         uses: quantcdn/purge-action@v2
         with:
-          customer: ${{ secrets.QUANT_CUSTOMER_ID }}
-          project: ${{ secrets.QUANT_PROJECT_ID }}
+          customer: ${{ env.QUANT_CUSTOMER }}
+          project: ${{ env.QUANT_PROJECT }}
           token: ${{ secrets.QUANT_TOKEN }}
-          endpoint: ${{ secrets.QUANT_ENDPOINT || 'https://api.quantcdn.io' }}
+          endpoint: ${{ env.QUANT_ENDPOINT || 'https://api.quantcdn.io/v1' }}
           url_pattern: "/*"

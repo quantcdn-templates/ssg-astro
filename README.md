@@ -44,10 +44,10 @@ This template includes a GitHub Actions workflow that automatically:
 
 ### Environment Variables
 
-The following secrets are automatically configured by Quant:
-- `QUANT_CUSTOMER_ID` - Your Quant customer ID
-- `QUANT_PROJECT_ID` - Your Quant project ID
-- `QUANT_TOKEN` - Your Quant API token
+The following are automatically configured by QuantCDN:
+- `QUANT_CUSTOMER` - Your Quant customer ID (repository variable)
+- `QUANT_PROJECT` - Your Quant project ID (repository variable)
+- `QUANT_TOKEN` - Your Quant API token (secret)
 
 ## Customization
 
