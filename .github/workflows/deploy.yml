@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  init:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,43 +20,24 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Cache Node Modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
 
-      - name: Cache local revision file
-        id: cache-quant-revisions
-        uses: actions/cache@v4
-        with:
-          path: .quant-revision
-          key: quant-revision
-
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Build static output
+      - name: Build
         run: npm run build
 
-      - name: Deploy updates to QuantCDN
+      - name: Deploy to QuantCDN
         uses: quantcdn/deploy-action@v6
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
           token: ${{ secrets.QUANT_TOKEN }}
-          endpoint: ${{ vars.QUANT_ENDPOINT || 'https://api.quantcdn.io/v1' }}
           dir: dist
-          chunk-size: 20
-          skip-purge: true
 
-      - name: Purge the QuantCDN cache
+      - name: Purge cache
         uses: quantcdn/purge-action@v6
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
           token: ${{ secrets.QUANT_TOKEN }}
-          endpoint: ${{ vars.QUANT_ENDPOINT || 'https://api.quantcdn.io/v1' }}
           url_pattern: "/*"
