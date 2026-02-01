@@ -42,7 +42,7 @@ jobs:
         run: npm run build
 
       - name: Deploy updates to QuantCDN
-        uses: quantcdn/deploy-action@v5.0.0
+        uses: quantcdn/deploy-action@v6
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
@@ -53,7 +53,7 @@ jobs:
           skip-purge: true
 
       - name: Purge the QuantCDN cache
-        uses: quantcdn/purge-action@v2
+        uses: quantcdn/purge-action@v6
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
