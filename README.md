@@ -2,7 +2,7 @@
 
 A minimal Astro static site starter template configured for deployment to QuantCDN.
 
-[![Deploy to QuantCDN](https://www.quantcdn.io/img/quant-deploy-btn-sml.svg)](https://dashboard.quantcdn.io/projects/add/jamstack/ssg-astro)
+[![Deploy to QuantCDN](https://www.quantcdn.io/img/quant-deploy-btn-sml.svg)](https://dashboard.quantcdn.io/deploy/static/ssg-astro)
 
 ## Features
 
