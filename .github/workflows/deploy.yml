@@ -31,7 +31,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to QuantCDN
-        uses: quantcdn/deploy-action@d25293fb60ff35d9f722e53db884bb4f5d6522ad  # v6.1.0
+        uses: quantcdn/deploy-action@169cf76a4c0517be4d6fe4b6802e3abaf8ef4afc  # v7.0.0
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
