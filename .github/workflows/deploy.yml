@@ -39,7 +39,7 @@ jobs:
 
       - name: Deploy to QuantCDN
         if: env.DEPLOY_CONFIGURED == 'true'
-        uses: quantcdn/deploy-action@9bf8cae8497ab6628d4b248db9eb11464f37e1e5  # v7.0.1
+        uses: quantcdn/deploy-action@9bf8cae8497ab6628d4b248db9eb11464f37e1e5 # v7.0.1
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
@@ -48,7 +48,7 @@ jobs:
 
       - name: Purge cache
         if: env.DEPLOY_CONFIGURED == 'true'
-        uses: quantcdn/purge-action@9bab37759d3cd137b5982706b20aad785a13b229  # v6.0.1
+        uses: quantcdn/purge-action@6010adb4bef33827d7f7d1be8b1d955f693568e4 # v7.0.0
         with:
           customer: ${{ vars.QUANT_CUSTOMER }}
           project: ${{ vars.QUANT_PROJECT }}
