@@ -1,0 +1,10 @@
+[{
+    "title": "Astro",
+    "url": "/deploy/static/ssg-astro",
+    "summary": "The web framework for content-driven websites.",
+    "content": "Deploy Astro, the static site generator that ships zero JavaScript by default. Supports components from React, Vue, Svelte and more, with fast builds and excellent performance.",
+    "categories": ["javascript", "nodejs"],
+    "tags": ["astro", "javascript", "static", "ssg", "blog"],
+    "template_type": "ssg",
+    "requires_db": false
+}]
