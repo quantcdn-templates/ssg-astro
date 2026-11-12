@@ -19,7 +19,7 @@ on:
       - main
   schedule:
     # Run daily at midnight UTC to catch dependency issues early
-    - cron: '0 0 * * *'
+    - cron: '17 15 * * *'
   workflow_dispatch:
 
 # The build only reads the repository.
